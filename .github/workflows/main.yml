@@ -1,0 +1,38 @@
+name: create release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tagname:
+        description: "tag name"
+        required: true
+      releasename:
+        description: "release name"
+        required: false
+      latest:
+        description: "mark as latest"
+        required: true
+        type: boolean
+        default: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: create release
+        uses: ./
+        with:
+          token: ${{ github.token }}
+          tag: ${{ inputs.tagname }}
+          release: ${{ inputs.releasename }}
+          latest: ${{ inputs.latest }}
+      - name: show results
+        shell: bash
+        run: |
+          echo "release created succesfully" >> $GITHUB_STEP_SUMMARY
+          echo "release name: ${{ env.release_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "release id: ${{ env.release_id }}" >> $GITHUB_STEP_SUMMARY
+          echo "assets url: ${{ env.assets_url }}" >> $GITHUB_STEP_SUMMARY
+          echo "upload url: ${{ env.upload_url }}" >> $GITHUB_STEP_SUMMARY
