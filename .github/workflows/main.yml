@@ -1,9 +1,3 @@
-# create-release-action
-Action to create tag and release
-
-### example
-
-```
 name: create release
 
 on:
@@ -28,7 +22,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
       - name: create release
-        uses: oskarirauta/create-release-action@v1
+        uses: ./
         with:
           token: ${{ github.token }}
           tag: ${{ inputs.tagname }}
@@ -37,8 +31,8 @@ jobs:
       - name: show results
         shell: bash
         run: |
-          echo "release id: ${{ env.release_id }}"
-          echo "assets url: ${{ env.assets_url }}"
-          echo "upload url: ${{ env.upload_url }}"
-          echo "asset_ids: ${{ env.asset_ids }}"
-```
+          echo "release created succesfully" >> $GITHUB_STEP_SUMMARY
+          echo "release name: ${{ env.release_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "release id: ${{ env.release_id }}" >> $GITHUB_STEP_SUMMARY
+          echo "assets url: ${{ env.assets_url }}" >> $GITHUB_STEP_SUMMARY
+          echo "upload url: ${{ env.upload_url }}" >> $GITHUB_STEP_SUMMARY
